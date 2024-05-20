@@ -1,0 +1,781 @@
+{
+    "type": "FeatureCollection",
+    "metadata": {
+        "generated": 1712028617000,
+        "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minmag=4&starttime=2024-03-04T00:00:00&endtime=2024-03-04T13:00:00",
+        "title": "USGS Earthquakes",
+        "status": 200,
+        "api": "1.14.0",
+        "count": 19
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.6,
+                "place": "Kermadec Islands region",
+                "time": 1709555931250,
+                "updated": 1711637478040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000m463",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000m463&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 326,
+                "net": "us",
+                "code": "7000m463",
+                "ids": ",us7000m463,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 28,
+                "dmin": 1.856,
+                "rms": 0.91,
+                "gap": 121,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.6 - Kermadec Islands region"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -177.2309,
+                    -31.0252,
+                    10
+                ]
+            },
+            "id": "us7000m463"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.5,
+                "place": "70 km W of Ollagüe, Chile",
+                "time": 1709550126413,
+                "updated": 1711635277040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgmp",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgmp&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 312,
+                "net": "us",
+                "code": "6000mgmp",
+                "ids": ",us6000mgmp,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 24,
+                "dmin": 0.528,
+                "rms": 0.73,
+                "gap": 48,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.5 - 70 km W of Ollagüe, Chile"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -68.9263,
+                    -21.1123,
+                    113.576
+                ]
+            },
+            "id": "us6000mgmp"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.6,
+                "place": "42 km W of Coquimbo, Chile",
+                "time": 1709543586703,
+                "updated": 1710142555040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgmd",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgmd&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 326,
+                "net": "us",
+                "code": "6000mgmd",
+                "ids": ",us6000mgmd,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 56,
+                "dmin": 0.472,
+                "rms": 1.15,
+                "gap": 87,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.6 - 42 km W of Coquimbo, Chile"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -71.7744,
+                    -30.0001,
+                    28.124
+                ]
+            },
+            "id": "us6000mgmd"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.5,
+                "place": "11 km NNW of Nurhak, Turkey",
+                "time": 1709540765344,
+                "updated": 1710145525040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgm5",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgm5&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 312,
+                "net": "us",
+                "code": "6000mgm5",
+                "ids": ",us6000mgm5,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 72,
+                "dmin": 0.682,
+                "rms": 0.64,
+                "gap": 65,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.5 - 11 km NNW of Nurhak, Turkey"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    37.4003,
+                    38.0648,
+                    10
+                ]
+            },
+            "id": "us6000mgm5"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.5,
+                "place": "130 km WNW of Aykol, China",
+                "time": 1709538871964,
+                "updated": 1709561918040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgm0",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgm0&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 312,
+                "net": "us",
+                "code": "6000mgm0",
+                "ids": ",us6000mgm0,",
+                "sources": ",us,",
+                "types": ",moment-tensor,origin,phase-data,",
+                "nst": 100,
+                "dmin": 0.448,
+                "rms": 0.83,
+                "gap": 102,
+                "magType": "mwr",
+                "type": "earthquake",
+                "title": "M 4.5 - 130 km WNW of Aykol, China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    78.6226,
+                    41.2128,
+                    10
+                ]
+            },
+            "id": "us6000mgm0"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.9,
+                "place": "107 km SSW of Pagar Alam, Indonesia",
+                "time": 1709535313629,
+                "updated": 1709543169040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mglu",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mglu&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 369,
+                "net": "us",
+                "code": "6000mglu",
+                "ids": ",us6000mglu,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 79,
+                "dmin": 0.554,
+                "rms": 0.51,
+                "gap": 160,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.9 - 107 km SSW of Pagar Alam, Indonesia"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    102.8424,
+                    -4.9067,
+                    61.571
+                ]
+            },
+            "id": "us6000mglu"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.6,
+                "place": "54 km SSW of Muborak, Uzbekistan",
+                "time": 1709533768257,
+                "updated": 1710139302040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgln",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgln&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 326,
+                "net": "us",
+                "code": "6000mgln",
+                "ids": ",us6000mgln,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 61,
+                "dmin": 2.536,
+                "rms": 0.37,
+                "gap": 108,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.6 - 54 km SSW of Muborak, Uzbekistan"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    64.8816,
+                    38.8137,
+                    10
+                ]
+            },
+            "id": "us6000mgln"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 5.3,
+                "place": "29 km NNW of Cholpon-Ata, Kyrgyzstan",
+                "time": 1709533324601,
+                "updated": 1709978170241,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mglm",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mglm&format=geojson",
+                "felt": 174,
+                "cdi": 6.2,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 540,
+                "net": "us",
+                "code": "6000mglm",
+                "ids": ",us6000mglm,",
+                "sources": ",us,",
+                "types": ",dyfi,origin,phase-data,",
+                "nst": 107,
+                "dmin": 0.793,
+                "rms": 1.09,
+                "gap": 19,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 5.3 - 29 km NNW of Cholpon-Ata, Kyrgyzstan"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    76.9713,
+                    42.9034,
+                    10
+                ]
+            },
+            "id": "us6000mglm"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4,
+                "place": "22 km S of Atka, Alaska",
+                "time": 1709533058912,
+                "updated": 1710533713147,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0242xy2ji3",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ak0242xy2ji3&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": 2.819,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 246,
+                "net": "ak",
+                "code": "0242xy2ji3",
+                "ids": ",ak0242xy2ji3,",
+                "sources": ",ak,",
+                "types": ",origin,phase-data,shakemap,",
+                "nst": null,
+                "dmin": null,
+                "rms": 0.42,
+                "gap": null,
+                "magType": "ml",
+                "type": "earthquake",
+                "title": "M 4.0 - 22 km S of Atka, Alaska"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -174.1411,
+                    51.9931,
+                    65.5
+                ]
+            },
+            "id": "ak0242xy2ji3"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.9,
+                "place": "South Sandwich Islands region",
+                "time": 1709531839288,
+                "updated": 1709532802040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mglf",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mglf&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 369,
+                "net": "us",
+                "code": "6000mglf",
+                "ids": ",us6000mglf,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 39,
+                "dmin": 19.811,
+                "rms": 0.33,
+                "gap": 146,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.9 - South Sandwich Islands region"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -25.4897,
+                    -59.35,
+                    27.052
+                ]
+            },
+            "id": "us6000mglf"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4,
+                "place": "38 km S of La Libertad, El Salvador",
+                "time": 1709526873162,
+                "updated": 1710722006040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgl7",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgl7&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 246,
+                "net": "us",
+                "code": "6000mgl7",
+                "ids": ",us6000mgl7,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 22,
+                "dmin": 0.533,
+                "rms": 0.37,
+                "gap": 188,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.0 - 38 km S of La Libertad, El Salvador"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -89.2973,
+                    13.1391,
+                    57.441
+                ]
+            },
+            "id": "us6000mgl7"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.4,
+                "place": "83 km NE of Aksu, China",
+                "time": 1709524232504,
+                "updated": 1710721732040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgkx",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgkx&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 298,
+                "net": "us",
+                "code": "6000mgkx",
+                "ids": ",us6000mgkx,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 53,
+                "dmin": 1.473,
+                "rms": 0.77,
+                "gap": 79,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.4 - 83 km NE of Aksu, China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    81.0968,
+                    41.6111,
+                    10
+                ]
+            },
+            "id": "us6000mgkx"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.1,
+                "place": "193 km WSW of Bamboo Flat, India",
+                "time": 1709524216199,
+                "updated": 1710719913040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000m45t",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000m45t&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 259,
+                "net": "us",
+                "code": "7000m45t",
+                "ids": ",us7000m45t,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 12,
+                "dmin": 10.694,
+                "rms": 0.71,
+                "gap": 86,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.1 - 193 km WSW of Bamboo Flat, India"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    91.2332,
+                    10.7472,
+                    10
+                ]
+            },
+            "id": "us7000m45t"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.2,
+                "place": "3 km SSW of San Marcos, Mexico",
+                "time": 1709523883286,
+                "updated": 1710717244363,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgku",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgku&format=geojson",
+                "felt": 2,
+                "cdi": 2,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 272,
+                "net": "us",
+                "code": "6000mgku",
+                "ids": ",us6000mgku,",
+                "sources": ",us,",
+                "types": ",dyfi,origin,phase-data,",
+                "nst": 29,
+                "dmin": 1.12,
+                "rms": 0.59,
+                "gap": 227,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.2 - 3 km SSW of San Marcos, Mexico"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -99.4021,
+                    16.7731,
+                    25.673
+                ]
+            },
+            "id": "us6000mgku"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 5.2,
+                "place": "217 km S of Bengkulu, Indonesia",
+                "time": 1709520501373,
+                "updated": 1710714338101,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000mgkc",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000mgkc&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": 3.735,
+                "alert": "green",
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 416,
+                "net": "us",
+                "code": "6000mgkc",
+                "ids": ",us6000mgkc,",
+                "sources": ",us,",
+                "types": ",losspager,moment-tensor,origin,phase-data,shakemap,",
+                "nst": 84,
+                "dmin": 1.563,
+                "rms": 0.79,
+                "gap": 44,
+                "magType": "mwb",
+                "type": "earthquake",
+                "title": "M 5.2 - 217 km S of Bengkulu, Indonesia"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    102.2524,
+                    -5.7671,
+                    10
+                ]
+            },
+            "id": "us6000mgkc"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.4,
+                "place": "52 km NNW of Cabodiongan, Philippines",
+                "time": 1709514014618,
+                "updated": 1710476395040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000m45r",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000m45r&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 298,
+                "net": "us",
+                "code": "7000m45r",
+                "ids": ",us7000m45r,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 24,
+                "dmin": 6.048,
+                "rms": 0.56,
+                "gap": 139,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.4 - 52 km NNW of Cabodiongan, Philippines"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    124.9139,
+                    13.1206,
+                    35
+                ]
+            },
+            "id": "us7000m45r"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.4,
+                "place": "53 km NE of Port-Olry, Vanuatu",
+                "time": 1709513355039,
+                "updated": 1710134589040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000m45q",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000m45q&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 298,
+                "net": "us",
+                "code": "7000m45q",
+                "ids": ",us7000m45q,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 23,
+                "dmin": 6.544,
+                "rms": 0.5,
+                "gap": 146,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.4 - 53 km NE of Port-Olry, Vanuatu"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    167.4081,
+                    -14.69,
+                    113.102
+                ]
+            },
+            "id": "us7000m45q"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4,
+                "place": "293 km NW of Houma, Tonga",
+                "time": 1709513265663,
+                "updated": 1710134921040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000m45p",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000m45p&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 246,
+                "net": "us",
+                "code": "7000m45p",
+                "ids": ",us7000m45p,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 20,
+                "dmin": 2.707,
+                "rms": 0.47,
+                "gap": 84,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.0 - 293 km NW of Houma, Tonga"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -177.4342,
+                    -19.4441,
+                    562.504
+                ]
+            },
+            "id": "us7000m45p"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "mag": 4.6,
+                "place": "Macquarie Island region",
+                "time": 1709512034431,
+                "updated": 1710194625040,
+                "tz": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000m45n",
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000m45n&format=geojson",
+                "felt": null,
+                "cdi": null,
+                "mmi": null,
+                "alert": null,
+                "status": "reviewed",
+                "tsunami": 0,
+                "sig": 326,
+                "net": "us",
+                "code": "7000m45n",
+                "ids": ",us7000m45n,",
+                "sources": ",us,",
+                "types": ",origin,phase-data,",
+                "nst": 21,
+                "dmin": 5.017,
+                "rms": 0.53,
+                "gap": 146,
+                "magType": "mb",
+                "type": "earthquake",
+                "title": "M 4.6 - Macquarie Island region"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    159.744,
+                    -59.4825,
+                    10
+                ]
+            },
+            "id": "us7000m45n"
+        }
+    ],
+    "bbox": [
+        -177.4342,
+        -59.4825,
+        10,
+        167.4081,
+        51.9931,
+        562.504
+    ]
+}
