@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 	"io"
 	"log"
+	"math"
 	"net/http"
 	"time"
 )
@@ -64,7 +65,15 @@ type Response struct {
 	Bbox []float64 `json:"bbox"`
 }
 
+type Point struct {
+	Latitude  float64
+	Longitude float64
+	Name      string
+}
+
 var config Config
+
+var pointA = Point{43.25, 76.9, "Almaty, Kazakhstan"}
 
 func init() {
 	viper.SetConfigType("env")
@@ -103,7 +112,16 @@ func NotifyAboutEQ(bot *tg.BotAPI) error {
 	}
 
 	for _, feature := range EqData.Features {
-		message += fmt.Sprintf("Place: %s;\nMag: %.1f;\nTime: %s;\n\n\n", feature.Properties.Place, feature.Properties.Mag, timestampToDate(feature.Properties.Time))
+		distance := CalculateDistanceBetween(
+			pointA.Latitude,
+			pointA.Longitude,
+			feature.Geometry.Coordinates[0],
+			feature.Geometry.Coordinates[1])
+		if distance <= 200 {
+			message += fmt.Sprintf("Place: %s;\nMag: %.1f;\nTime: %s;\n\n\n", feature.Properties.Place, feature.Properties.Mag, timestampToDate(feature.Properties.Time))
+		} else {
+			log.Printf("This event was occurred %.2f km from %s in the place %s\n", distance, pointA.Name, feature.Properties.Place)
+		}
 	}
 	if message != "" {
 		err = sendMessageToChannel(bot, message)
@@ -112,6 +130,22 @@ func NotifyAboutEQ(bot *tg.BotAPI) error {
 		}
 	}
 	return nil
+}
+
+func CalculateDistanceBetween(LatitudeA, LongitudeA, LatitudeB, LongitudeB float64) float64 {
+	const R = 6371e3
+	φ1 := LatitudeA * math.Pi / 180 // φ, λ in radians
+	φ2 := LatitudeB * math.Pi / 180
+	Δφ := (LatitudeB - LatitudeA) * math.Pi / 180
+	Δλ := (LongitudeB - LongitudeA) * math.Pi / 180
+
+	a := math.Sin(Δφ/2)*math.Sin(Δφ/2) +
+		math.Cos(φ1)*math.Cos(φ2)*
+			math.Sin(Δλ/2)*math.Sin(Δλ/2)
+
+	c := 2 * math.Atan2(math.Sqrt(a), math.Sqrt(1-a))
+	d := (R * c) / 1000
+	return d
 }
 
 // Перевод из формата unix в нормальную дату
@@ -185,7 +219,6 @@ func main() {
 	}, 1)
 }
 
-// TODO: настроить планировщик через cron
 // DONE 1 через определенный промежуток времени делать запрос в сервис;
 // DONE 2 вытащить данные;
 // 3 обработать их и проверить близко ли это к координатам Алматы;
