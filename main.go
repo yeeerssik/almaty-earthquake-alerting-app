@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	tg "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/spf13/viper"
 	"io"
 	"log"
 	"math"
 	"net/http"
 	"time"
+
+	tg "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 type Config struct {
@@ -66,14 +67,24 @@ type Response struct {
 }
 
 type Point struct {
-	Latitude  float64
-	Longitude float64
-	Name      string
+	Latitude     float64
+	Longitude    float64
+	MaxRadius    float64
+	MinMagnitude int
+	MinutesCount time.Duration
+	Name         string
 }
 
 var config Config
 
-var pointA = Point{43.25, 76.9, "Almaty, Kazakhstan"}
+var pointA = Point{
+	43.25,
+	76.9,
+	800,
+	4,
+	1,
+	"Almaty, Kazakhstan",
+}
 
 func init() {
 	viper.SetConfigType("env")
@@ -103,25 +114,22 @@ func sendMessageToChannel(bot *tg.BotAPI, msgText string) error {
 	return nil
 }
 
-func NotifyAboutEQ(bot *tg.BotAPI) error {
+// Notifying about earthquake events using Telegram
+func notifyAboutEQ(bot *tg.BotAPI) error {
 	var EqData Response
 	var message string
-	EqData, err := getEqData(4, 1000)
+	EqData, err := getEqData(pointA.MinMagnitude, pointA.MinutesCount)
 	if err != nil {
 		return err
 	}
-
+	log.Printf("Recieved from request - %d elements", EqData.Metadata.Count)
 	for _, feature := range EqData.Features {
-		distance := CalculateDistanceBetween(
-			pointA.Latitude,
-			pointA.Longitude,
-			feature.Geometry.Coordinates[0],
-			feature.Geometry.Coordinates[1])
-		if distance <= 200 {
-			message += fmt.Sprintf("Place: %s;\nMag: %.1f;\nTime: %s;\n\n\n", feature.Properties.Place, feature.Properties.Mag, timestampToDate(feature.Properties.Time))
-		} else {
-			log.Printf("This event was occurred %.2f km from %s in the place %s\n", distance, pointA.Name, feature.Properties.Place)
-		}
+		message += fmt.Sprintf("🌍 Earthquake Alert! 🌍\n\n📍 Location: %s\n📏 Magnitude: %.2f\n🕒 Time: %s\n📏 Depth: %.2f km near %s \n\nStay safe, everyone! 🚨\n\n\n",
+			feature.Properties.Place,
+			feature.Properties.Mag,
+			timestampToDate(feature.Properties.Time),
+			calculateDistanceBetween(pointA.Longitude, pointA.Latitude, feature.Geometry.Coordinates[1], feature.Geometry.Coordinates[0]),
+			pointA.Name)
 	}
 	if message != "" {
 		err = sendMessageToChannel(bot, message)
@@ -132,42 +140,43 @@ func NotifyAboutEQ(bot *tg.BotAPI) error {
 	return nil
 }
 
-func CalculateDistanceBetween(LatitudeA, LongitudeA, LatitudeB, LongitudeB float64) float64 {
+// calculateDistanceBetween Calculate distance between two points using Haversine formula
+func calculateDistanceBetween(LatitudeA, LongitudeA, LatitudeB, LongitudeB float64) float64 {
 	const R = 6371e3
-	φ1 := LatitudeA * math.Pi / 180 // φ, λ in radians
-	φ2 := LatitudeB * math.Pi / 180
-	Δφ := (LatitudeB - LatitudeA) * math.Pi / 180
-	Δλ := (LongitudeB - LongitudeA) * math.Pi / 180
+	phi1 := LatitudeA * math.Pi / 180 // φ, λ in radians
+	phi2 := LatitudeB * math.Pi / 180
+	deltaPhi := (LatitudeB - LatitudeA) * math.Pi / 180
+	deltaLambda := (LongitudeB - LongitudeA) * math.Pi / 180
 
-	a := math.Sin(Δφ/2)*math.Sin(Δφ/2) +
-		math.Cos(φ1)*math.Cos(φ2)*
-			math.Sin(Δλ/2)*math.Sin(Δλ/2)
+	a := math.Sin(deltaPhi/2)*math.Sin(deltaPhi/2) +
+		math.Cos(phi1)*math.Cos(phi2)*
+			math.Sin(deltaLambda/2)*math.Sin(deltaLambda/2)
 
 	c := 2 * math.Atan2(math.Sqrt(a), math.Sqrt(1-a))
 	d := (R * c) / 1000
 	return d
 }
 
-// Перевод из формата unix в нормальную дату
+// timestampToDate timeConvert from unix epoch to timestamp
 func timestampToDate(timestamp int64) time.Time {
 	location, err := time.LoadLocation("Asia/Almaty")
 	if err != nil {
 		panic(err)
 	}
-	// Особенность конвертации Unix в Timestamp
 	return time.Unix(timestamp/1e3, 0).In(location)
 }
 
+// getEqData Sends request to USGS service and receives data about earthquake events
 func getEqData(minMagnitude int, minutes time.Duration) (Response, error) {
 	const ISO_8601 = "2006-01-02T15:04:05"
 	var result Response
 	startTime := time.Now().Add(-(time.Minute * minutes)).Format(ISO_8601)
 	endTime := time.Now().Format(ISO_8601)
-
-	url := fmt.Sprintf("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minmag=%d&starttime=%s&endtime=%s",
-		minMagnitude, startTime, endTime)
+	url := fmt.Sprintf("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minmag=%d&starttime=%s&endtime=%s&latitude=%.2f&longitude=%.2f&maxradiuskm=%.1f",
+		minMagnitude, startTime, endTime, pointA.Latitude, pointA.Longitude, pointA.MaxRadius)
 
 	req, err := http.NewRequest("GET", url, nil)
+	log.Printf("Sending request to %s", url)
 	if err != nil {
 		return result, err
 	}
@@ -191,7 +200,8 @@ func getEqData(minMagnitude int, minutes time.Duration) (Response, error) {
 	return result, nil
 }
 
-func DoTaskByTime(f func(), minutes time.Duration) {
+// doTaskByTime Simple scheduler implementation, that invokes some function once in defined time measure
+func doTaskByTime(f func(), minutes time.Duration) {
 	ticker := time.NewTicker(minutes * time.Minute)
 	defer ticker.Stop()
 
@@ -208,19 +218,14 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	bot.Debug = true
+	// logging requests
+	//bot.Debug = true
 	log.Printf("Successfully authenticated as %s\n", bot.Self.UserName)
 
-	DoTaskByTime(func() {
-		err = NotifyAboutEQ(bot)
+	doTaskByTime(func() {
+		err = notifyAboutEQ(bot)
 		if err != nil {
 			log.Panic(err)
 		}
 	}, 1)
 }
-
-// DONE 1 через определенный промежуток времени делать запрос в сервис;
-// DONE 2 вытащить данные;
-// 3 обработать их и проверить близко ли это к координатам Алматы;
-// DONE 4 отправить сообщение в канал, где будет бот и другие участники если будет реально землетрясение
-// 5 Выложить программу в открытый доступ в какой-то из серверов
