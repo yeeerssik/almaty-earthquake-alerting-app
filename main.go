@@ -80,9 +80,9 @@ var config Config
 var pointA = Point{
 	43.25,
 	76.9,
-	800,
-	4,
-	1,
+	2000,
+	2,
+	1000,
 	"Almaty, Kazakhstan",
 }
 
@@ -105,6 +105,11 @@ func init() {
 	}
 }
 
+// loadEnvVariables Loading env variables from file
+func loadEnvVariables() error {
+	return nil
+}
+
 func sendMessageToChannel(bot *tg.BotAPI, msgText string) error {
 	msg := tg.NewMessageToChannel(config.ChatId, msgText)
 	_, err := bot.Send(msg)
@@ -114,7 +119,7 @@ func sendMessageToChannel(bot *tg.BotAPI, msgText string) error {
 	return nil
 }
 
-// Notifying about earthquake events using Telegram
+// notifyAboutEQ Notifying about earthquake events using Telegram
 func notifyAboutEQ(bot *tg.BotAPI) error {
 	var EqData Response
 	var message string
@@ -159,17 +164,13 @@ func calculateDistanceBetween(LatitudeA, LongitudeA, LatitudeB, LongitudeB float
 
 // timestampToDate timeConvert from unix epoch to timestamp
 func timestampToDate(timestamp int64) time.Time {
-	location, err := time.LoadLocation("Asia/Almaty")
-	if err != nil {
-		panic(err)
-	}
+	location, _ := time.LoadLocation("Asia/Almaty")
 	return time.Unix(timestamp/1e3, 0).In(location)
 }
 
 // getEqData Sends request to USGS service and receives data about earthquake events
-func getEqData(minMagnitude int, minutes time.Duration) (Response, error) {
+func getEqData(minMagnitude int, minutes time.Duration) (result Response, err error) {
 	const ISO_8601 = "2006-01-02T15:04:05"
-	var result Response
 	startTime := time.Now().Add(-(time.Minute * minutes)).Format(ISO_8601)
 	endTime := time.Now().Format(ISO_8601)
 	url := fmt.Sprintf("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minmag=%d&starttime=%s&endtime=%s&latitude=%.2f&longitude=%.2f&maxradiuskm=%.1f",
@@ -178,26 +179,25 @@ func getEqData(minMagnitude int, minutes time.Duration) (Response, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	log.Printf("Sending request to %s", url)
 	if err != nil {
-		return result, err
+		return
 	}
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return result, err
+		return
 	}
 
 	defer res.Body.Close()
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return result, nil
+		return
 	}
 
-	if err := json.Unmarshal(body, &result); err != nil {
-		return result, nil
+	if err = json.Unmarshal(body, &result); err != nil {
+		return
 	}
-
-	return result, nil
+	return
 }
 
 // doTaskByTime Simple scheduler implementation, that invokes some function once in defined time measure
@@ -225,7 +225,7 @@ func main() {
 	doTaskByTime(func() {
 		err = notifyAboutEQ(bot)
 		if err != nil {
-			log.Panic(err)
+			log.Printf("Something went wrong: %s", err)
 		}
 	}, 1)
 }
