@@ -1,9 +1,12 @@
 package main
 
 import (
+	"almeqapp/config"
+	"almeqapp/internal/models"
+	"almeqapp/internal/service"
+	"almeqapp/utils/helper"
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/viper"
 	"io"
 	"log"
 	"math"
@@ -13,100 +16,29 @@ import (
 	tg "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-type Config struct {
-	TgToken string `mapstructure:"TG_TOKEN"`
-	ChatId  string `mapstructure:"CHAT_ID"`
-}
-type Response struct {
-	Type     string `json:"type"`
-	Metadata struct {
-		Generated int64  `json:"generated"`
-		URL       string `json:"url"`
-		Title     string `json:"title"`
-		Status    int    `json:"status"`
-		API       string `json:"api"`
-		Count     int    `json:"count"`
-	} `json:"metadata"`
-	Features []struct {
-		Type       string `json:"type"`
-		Properties struct {
-			Mag     float64 `json:"mag"`
-			Place   string  `json:"place"`
-			Time    int64   `json:"time"`
-			Updated int64   `json:"updated"`
-			Tz      any     `json:"tz"`
-			URL     string  `json:"url"`
-			Detail  string  `json:"detail"`
-			Felt    any     `json:"felt"`
-			Cdi     any     `json:"cdi"`
-			Mmi     any     `json:"mmi"`
-			Alert   any     `json:"alert"`
-			Status  string  `json:"status"`
-			Tsunami int     `json:"tsunami"`
-			Sig     int     `json:"sig"`
-			Net     string  `json:"net"`
-			Code    string  `json:"code"`
-			Ids     string  `json:"ids"`
-			Sources string  `json:"sources"`
-			Types   string  `json:"types"`
-			Nst     int     `json:"nst"`
-			Dmin    float64 `json:"dmin"`
-			Rms     float64 `json:"rms"`
-			Gap     int     `json:"gap"`
-			MagType string  `json:"magType"`
-			Type    string  `json:"type"`
-			Title   string  `json:"title"`
-		} `json:"properties"`
-		Geometry struct {
-			Type        string    `json:"type"`
-			Coordinates []float64 `json:"coordinates"`
-		} `json:"geometry"`
-		ID string `json:"id"`
-	} `json:"features"`
-	Bbox []float64 `json:"bbox"`
-}
-
-type Point struct {
-	Latitude     float64
-	Longitude    float64
-	MaxRadius    float64
-	MinMagnitude int
-	MinutesCount time.Duration
-	Name         string
-}
-
-var config Config
-
-var pointA = Point{
-	43.25,
-	76.9,
-	800,
-	4,
-	1,
-	"Almaty, Kazakhstan",
-}
-
-func init() {
-	viper.SetConfigType("env")
-	viper.AddConfigPath(".")
-	viper.SetConfigName("config.env")
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err != nil {
-		log.Panic(err)
-	}
-
-	err := viper.Unmarshal(&config)
+func main() {
+	c, err := config.New()
 	if err != nil {
 		log.Panic(err)
 	}
-	if config.TgToken == "" {
-		log.Panic("Empty token!")
+
+	tgService, err := service.New(c)
+	if err != nil {
+		log.Panic(err)
 	}
+
+	log.Printf("Successfully authenticated as %s\n", tgService.Bot.Self.UserName)
+
+	doTaskByTime(func() {
+		err = notifyAboutEQ(c, tgService.Bot)
+		if err != nil {
+			log.Panic(err)
+		}
+	}, 1)
 }
 
-func sendMessageToChannel(bot *tg.BotAPI, msgText string) error {
-	msg := tg.NewMessageToChannel(config.ChatId, msgText)
+func sendMessageToChannel(conf *config.Config, bot *tg.BotAPI, msgText string) error {
+	msg := tg.NewMessageToChannel(conf.ChatId, msgText)
 	_, err := bot.Send(msg)
 	if err != nil {
 		return err
@@ -115,10 +47,10 @@ func sendMessageToChannel(bot *tg.BotAPI, msgText string) error {
 }
 
 // Notifying about earthquake events using Telegram
-func notifyAboutEQ(bot *tg.BotAPI) error {
-	var EqData Response
+func notifyAboutEQ(conf *config.Config, bot *tg.BotAPI) error {
+	var EqData models.Response
 	var message string
-	EqData, err := getEqData(pointA.MinMagnitude, pointA.MinutesCount)
+	EqData, err := getEqData(conf)
 	if err != nil {
 		return err
 	}
@@ -127,12 +59,12 @@ func notifyAboutEQ(bot *tg.BotAPI) error {
 		message += fmt.Sprintf("🌍 Earthquake Alert! 🌍\n\n📍 Location: %s\n📏 Magnitude: %.2f\n🕒 Time: %s\n📏 Depth: %.2f km near %s \n\nStay safe, everyone! 🚨\n\n\n",
 			feature.Properties.Place,
 			feature.Properties.Mag,
-			timestampToDate(feature.Properties.Time),
-			calculateDistanceBetween(pointA.Longitude, pointA.Latitude, feature.Geometry.Coordinates[1], feature.Geometry.Coordinates[0]),
-			pointA.Name)
+			helper.TimestampToDate(feature.Properties.Time),
+			calculateDistanceBetween(conf.TargetPlaceLongitude, conf.TargetPlaceLatitude, feature.Geometry.Coordinates[1], feature.Geometry.Coordinates[0]),
+			conf.TargetPlaceName)
 	}
 	if message != "" {
-		err = sendMessageToChannel(bot, message)
+		err = sendMessageToChannel(conf, bot, message)
 		if err != nil {
 			return err
 		}
@@ -157,23 +89,14 @@ func calculateDistanceBetween(LatitudeA, LongitudeA, LatitudeB, LongitudeB float
 	return d
 }
 
-// timestampToDate timeConvert from unix epoch to timestamp
-func timestampToDate(timestamp int64) time.Time {
-	location, err := time.LoadLocation("Asia/Almaty")
-	if err != nil {
-		panic(err)
-	}
-	return time.Unix(timestamp/1e3, 0).In(location)
-}
-
 // getEqData Sends request to USGS service and receives data about earthquake events
-func getEqData(minMagnitude int, minutes time.Duration) (Response, error) {
+func getEqData(conf *config.Config) (result models.Response, err error) {
 	const ISO_8601 = "2006-01-02T15:04:05"
-	var result Response
-	startTime := time.Now().Add(-(time.Minute * minutes)).Format(ISO_8601)
+
+	startTime := time.Now().Add(-(time.Minute * time.Duration(conf.MinutesCount))).Format(ISO_8601)
 	endTime := time.Now().Format(ISO_8601)
 	url := fmt.Sprintf("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minmag=%d&starttime=%s&endtime=%s&latitude=%.2f&longitude=%.2f&maxradiuskm=%.1f",
-		minMagnitude, startTime, endTime, pointA.Latitude, pointA.Longitude, pointA.MaxRadius)
+		conf.MinMagnitude, startTime, endTime, conf.TargetPlaceLatitude, conf.TargetPlaceLongitude, conf.MaxRadius)
 
 	req, err := http.NewRequest("GET", url, nil)
 	log.Printf("Sending request to %s", url)
@@ -211,21 +134,4 @@ func doTaskByTime(f func(), minutes time.Duration) {
 			f()
 		}
 	}
-}
-
-func main() {
-	bot, err := tg.NewBotAPI(config.TgToken)
-	if err != nil {
-		log.Panic(err)
-	}
-	// logging requests
-	//bot.Debug = true
-	log.Printf("Successfully authenticated as %s\n", bot.Self.UserName)
-
-	doTaskByTime(func() {
-		err = notifyAboutEQ(bot)
-		if err != nil {
-			log.Panic(err)
-		}
-	}, 1)
 }
